@@ -9,7 +9,8 @@ const Login = () => {
     name: "",
     pass: "",
   })
-  const authFetchHandler = () => {
+  const authFetchHandler = (e) => {
+    e.preventDefault()
     authRequest(authInfo.name, authInfo.pass)
   }
 
