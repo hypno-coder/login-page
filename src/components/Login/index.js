@@ -1,36 +1,44 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './index.css'
+import authRequest from '../requests/authRequest'
 
 const Login = () => {
-  const [name, setName] = useState('')
-  const [pass, setPass] = useState('')
-
-  const authFetchHandler = async () => {
-    const url = 'http://neurodoc.online/api/api/authenticate'
-    axios.post(url, {
-      "username": "testuser@tt.ru",
-      "password": "TPipZn2h",
-    }).then(resp => {
-      console.log("Success ========>", resp)
-    }).catch(error => {
-      console.log("Success ========>", error);
-    })
+  const [authInfo, setAuthInfo] = useState({
+    name: "",
+    pass: "",
+  })
+  const authFetchHandler = () => {
+    authRequest(authInfo.name, authInfo.pass)
   }
 
   return (
     <form action="" className="postcard">
       <div className="form-row">
         <label htmlFor="name">имя</label>
-        <input value={name} onChange={(e) => setName(e.currentTarget.value)} type="text" id="name" required />
+        <input
+          value={authInfo.name}
+          onChange={(e) => setAuthInfo({ ...authInfo, name: e.target.value })}
+          type="text"
+          id="name"
+          required
+        />
       </div>
       <div className="form-row">
         <label htmlFor="password">пароль</label>
-        <input value={pass} onChange={(e) => setPass(e.currentTarget.value)} type="password" id="password" required />
+        <input
+          value={authInfo.pass}
+          onChange={(e) => setAuthInfo({ ...authInfo, pass: e.target.value })}
+          type="password"
+          id="password"
+          required
+        />
       </div>
       <div className="form-row">
         <input onClick={authFetchHandler} type="submit" value="Войти" />
       </div>
+      <ToastContainer autoClose={2000} />
     </form>
   )
 }
